@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Global - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/sangyeons57/projects/tree/master/game/testproject2" target="_blank" class="menu-item" id="website_link" >GitHub 링크</a></h2><h3>Classes</h3><ul><li><a href="ConstantValues.html">ConstantValues</a></li><li><a href="Layer.html">Layer</a><ul class='methods'><li data-type='method'><a href="Layer.html#create">create</a></li><li data-type='method'><a href="Layer.html#fillPlace">fillPlace</a></li><li data-type='method'><a href="Layer.html#cutPlace">cutPlace</a></li><li data-type='method'><a href="Layer.html#getOnOffMap">getOnOffMap</a></li><li data-type='method'><a href="Layer.html#fillPlaceMap">fillPlaceMap</a></li></ul></li><li><a href="WorldLayer.html">WorldLayer</a><ul class='methods'><li data-type='method'><a href="WorldLayer.html#setMapSize">setMapSize</a></li><li data-type='method'><a href="WorldLayer.html#setMap">setMap</a></li><li data-type='method'><a href="WorldLayer.html#getPlaceColor">getPlaceColor</a></li><li data-type='method'><a href="WorldLayer.html#fillPlaceLevel">fillPlaceLevel</a></li><li data-type='method'><a href="WorldLayer.html#fill_outer_wall">fill_outer_wall</a></li><li data-type='method'><a href="WorldLayer.html#create">create</a></li><li data-type='method'><a href="WorldLayer.html#fillPlace">fillPlace</a></li><li data-type='method'><a href="WorldLayer.html#cutPlace">cutPlace</a></li><li data-type='method'><a href="WorldLayer.html#getOnOffMap">getOnOffMap</a></li><li data-type='method'><a href="WorldLayer.html#fillPlaceMap">fillPlaceMap</a></li></ul></li><li><a href="WallLayer.html">WallLayer</a><ul class='methods'><li data-type='method'><a href="WallLayer.html#isPath">isPath</a></li><li data-type='method'><a href="WallLayer.html#create">create</a></li><li data-type='method'><a href="WallLayer.html#fillPlace">fillPlace</a></li><li data-type='method'><a href="WallLayer.html#cutPlace">cutPlace</a></li><li data-type='method'><a href="WallLayer.html#getOnOffMap">getOnOffMap</a></li><li data-type='method'><a href="WallLayer.html#fillPlaceMap">fillPlaceMap</a></li></ul></li><li><a href="ShadowLayer.html">ShadowLayer</a><ul class='methods'><li data-type='method'><a href="ShadowLayer.html#reset">reset</a></li><li data-type='method'><a href="ShadowLayer.html#setSight">setSight</a></li><li data-type='method'><a href="ShadowLayer.html#chainSight">chainSight</a></li><li data-type='method'><a href="ShadowLayer.html#create">create</a></li><li data-type='method'><a href="ShadowLayer.html#fillPlace">fillPlace</a></li><li data-type='method'><a href="ShadowLayer.html#cutPlace">cutPlace</a></li><li data-type='method'><a href="ShadowLayer.html#getOnOffMap">getOnOffMap</a></li><li data-type='method'><a href="ShadowLayer.html#fillPlaceMap">fillPlaceMap</a></li></ul></li><li><a href="PlayerMaker.html">PlayerMaker</a><ul class='methods'><li data-type='method'><a href="PlayerMaker.html#screenStartRow">screenStartRow</a></li><li data-type='method'><a href="PlayerMaker.html#screenStartCol">screenStartCol</a></li><li data-type='method'><a href="PlayerMaker.html#move">move</a></li><li data-type='method'><a href="PlayerMaker.html#reset">reset</a></li></ul></li><li><a href="LevelMap.html">LevelMap</a><ul class='methods'><li data-type='method'><a href="LevelMap.html#findExit">findExit</a></li><li data-type='method'><a href="LevelMap.html#getLevelMap">getLevelMap</a></li><li data-type='method'><a href="LevelMap.html#getInfo">getInfo</a></li></ul></li><li><a href="MapMaker.html">MapMaker</a><ul class='methods'><li data-type='method'><a href="MapMaker.html#createWorld">createWorld</a></li><li data-type='method'><a href="MapMaker.html#setupLevelMap">setupLevelMap</a></li><li data-type='method'><a href="MapMaker.html#devModeWall">devModeWall</a></li><li data-type='method'><a href="MapMaker.html#getPlayerWorld">getPlayerWorld</a></li><li data-type='method'><a href="MapMaker.html#updateWallMap">updateWallMap</a></li><li data-type='method'><a href="MapMaker.html#make_shadow">make_shadow</a></li><li data-type='method'><a href="MapMaker.html#makeShadowMap">makeShadowMap</a></li><li data-type='method'><a href="MapMaker.html#drawCanvas">drawCanvas</a></li></ul></li><li><a href="Game.html">Game</a><ul class='methods'><li data-type='method'><a href="Game.html#startGame">startGame</a></li><li data-type='method'><a href="Game.html#exitPos">exitPos</a></li><li data-type='method'><a href="Game.html#nextLevel">nextLevel</a></li><li data-type='method'><a href="Game.html#moveCallback">moveCallback</a></li><li data-type='method'><a href="Game.html#move_computer">move_computer</a></li><li data-type='method'><a href="Game.html#modeChange">modeChange</a></li><li data-type='method'><a href="Game.html#displayInfo">displayInfo</a></li><li data-type='method'><a href="Game.html#startTimer">startTimer</a></li><li data-type='method'><a href="Game.html#initTimer">initTimer</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Global</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="LevelExitPosition">LevelExitPosition</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="project_maze.js.html">project_maze.js</a>, <a href="project_maze.js.html#line496">line 496</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>row</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>레벨 지도에서 출구 행 좌표</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>레벨 지도에서 출구 열 좌표</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="ExitPos">ExitPos</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="project_maze.js.html">project_maze.js</a>, <a href="project_maze.js.html#line739">line 739</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>row</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>월드 지도에서 출구 행 좌표</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>월드 지도에서 출구 열 좌표</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onExit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>플레이어 위치와 출구 위치가 일치하면 true</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a> on Fri Nov 13 2020 16:34:20 GMT+0900 (대한민국 표준시) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+    <link type="text/css" rel="stylesheet" href="custom/custom.css">
+    
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿{
+    "plugins": [
+        "plugins/markdown"
+    ],
+    "recurseDepth": 10,
+    "source": {
+        "include": "./src/project_maze.js",
+        "includePattern": ".js$"
+    },
+    "opts": {
+        "template": "node_modules/docdash",
+        "encoding": "utf8",
+        "destination": "./docs",
+        "recurse": true,
+        "verbose": true
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true,
+            "staticFiles": {
+                "include": [ "./static" ],
+                "excludePattern": ".md$"
+            }
+        }
+    },
+    "docdash": {
+        "sort": false,
+        "search": true,
+        "scripts": [
+            "custom/custom.css" 
+        ],
+        "menu": {
+            "GitHub 링크": {
+                "href": "https://github.com/sangyeons57/projects/tree/master/game/testproject2",
+                "target": "_blank",
+                "class": "menu-item",
+                "id": "website_link"
+            }
+        }
+    }
+}
