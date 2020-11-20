@@ -67,6 +67,12 @@ class Layer {
 
 	/**
 	 * Layer 내의 일부 지정된 네모 영역을 value로 채운다
+	 * 
+	 * @param {any} value - 주어진 값
+	 * @param {number} startY - 지정할 영역의 시작 y 값
+	 * @param {number} startX - 지정할 영역의 시작 x 값
+	 * @param {number} numY - 지정할 영역의 끝 y 값(startY + numY 가 끝값이다.)
+	 * @param {number} numX - 지정할 영역의 끝 x 값(stratX + numX 가 끝값이다.)
 	 */
 	fillPlace(value, startY=0, startX=0, numY=1, numX=this.width) {
 		for(let row = startY; row<startY + numY; row++) {
@@ -107,7 +113,7 @@ class Layer {
 
 	/**
 	 * Layer의 전체 영역을 같은 크기의 map 값으로 채운다
-	 * @param {array[]} map
+	 * @param {array[]} map - 2차원 배열값 
 	 */
 	fillPlaceMap(map) {
 		this.place = map
@@ -120,10 +126,15 @@ class Layer {
  * @extends Layer
  */
 class WorldLayer extends Layer {
+	/**
+	 * WorldLayer 생성할 때 외벽의 크기를 지정해 줘야 한다 
+	 * @param {number} outerWallWidth - 외벽의 가로길이 
+	 * @param {number} outerWallHeight - 외벽의 세로길이 
+	 */
 	constructor(outerWallWidth, outerWallHeight) {
 		super()
-		this.owWidth = outerWallWidth			// 외벽 길이
-		this.owHeight = outerWallHeight			// 외벽 높이
+		this.owWidth = outerWallWidth
+		this.owHeight = outerWallHeight
 		this.mapWidth = undefined
 		this.mapHeight = undefined
 	}
@@ -131,8 +142,8 @@ class WorldLayer extends Layer {
 	/**
 	 * 지도 크기 변수 초기화
 	 *  
-	 * @param {*} width 
-	 * @param {*} height 
+	 * @param {number} width  - 지도의 가로길이 
+	 * @param {number} height - 지도의 세로길이
 	 */
 	setMapSize(width, height) {
 		this.mapWidth = width
@@ -153,8 +164,8 @@ class WorldLayer extends Layer {
 	/**
 	 * 월드 지도에서 해당 위치의 컬러를 받아온다 
 	 * 
-	 * @param {number} row 
-	 * @param {number column 
+	 * @param {number} row - 컬러 받아올 위치의 행 
+	 * @param {number} column - 컬러 받아올 위치의 열 
 	 */
 	getPlaceColor(row, column) {
 		return this.place[row][column]
@@ -246,8 +257,8 @@ class ShadowLayer extends Layer {
 	/**
 	 * 플레이어 주변 4방향으로 시야에 걸리는 부분의 그림자를 제거한다
 	 * 
-	 * @param {WallLayer} wallMap
-	 * @param {PlayerMaker} player 
+	 * @param {WallLayer} wallMap - 벽지도 레이어 
+	 * @param {PlayerMaker} player - 플레이어 클래스
 	 */
 	makeSights(wallMap, player){
 		this.xSightSearch(wallMap, player, 1)	// 오른쪽으로 검색
@@ -442,6 +453,9 @@ class PlayerMaker {
 	}
 }
 
+/**
+ * 실제 캔버스에 그리는 클래스
+ */
 class CanvasDraw {
 	constructor() {
 		// 캔버스 설정
@@ -458,8 +472,8 @@ class CanvasDraw {
 	 * 스크린 영역에 canvas 함수로 실제 그리는 함수
 	 *
 	 * 현재 스크린 영역에 map으로 그림 그리는 경우는 두가지 인데
-	 * 월드 지도 : 벽과 바닥을 여러가지 색으로 그린다
-	 * 그림자 지도 : 그림자를 한가지 색으로 그린다 
+	 * <br>월드 지도 : 벽과 바닥을 여러가지 색으로 그린다
+	 * <br>그림자 지도 : 그림자를 한가지 색으로 그린다 
 	 *  
 	 * @param {any[][]} blockMap  - 컬러맵 정보를 가진 2차원 배열 
 	 * @param {boolean} isOneColor  - 그리는 색이 단색인지 아닌지
@@ -484,8 +498,9 @@ class CanvasDraw {
 	}
 
 	/**
-	 * 
-	 * @param {PlayerMaker} player 
+	 * 플레이어 그리는 함수
+	 *  
+	 * @param {PlayerMaker} player - 플레이어 클래스 
 	 */
 	drawPlayer(player) {
 		// 플레이어 그리기, 항상 캔버스 중간 위치
@@ -496,6 +511,9 @@ class CanvasDraw {
 			this.blocksize,this.blocksize)
 	}
 
+	/**
+	 * 스크린 주변에 테두리 그리는 함수 
+	 */
 	drawBorder() {
 		this.ctx.fillStyle = VALUES.borderColor
 		this.ctx.fillRect(0, 0, this.blocksize, this.height)
@@ -614,8 +632,9 @@ class LevelMap {
 
 	/**
 	 * 선택된 레벨 지도를 반환 한다 ( 2차원 배열 ) 
+	 * 
 	 * @param {number} level  - 레벨 선택
-	 * @returns {number[][]}
+	 * @returns {number[][]}  - 선택된 2차원 배열 지도
 	 */
 	getLevelMap(level) {
 		return this.map_list[level]
@@ -650,6 +669,9 @@ class LevelMap {
  * 
  */
 class MapMaker {
+	/**
+	 * MapMaker 생성자
+	 */
 	constructor() {
 		const isOdd = n => Math.abs(n % 2) == 1		// 홀수이면 true를 반환한다 
 		// 캔버스를 받아옴
@@ -774,7 +796,7 @@ class MapMaker {
 	}
 
 	/**
-	 * 전체 그리기 : 구 draw_place()
+	 * 캔버스 전체 그리기
 	 * 
 	 * @param {PlayerMaker} player - 플레이어 
 	 */
@@ -795,6 +817,9 @@ class MapMaker {
  * 게임 플레이와 관련된 클래스
  */
 class Game {
+	/**
+	 * Game 클래스 생성자
+	 */
 	constructor() {
 		// 지도 변수 설정
 		this.map = new MapMaker()
@@ -841,6 +866,7 @@ class Game {
 	}
 
 	/**
+	 * 출구 정보 타입정의
 	 * @typedef {Object} ExitPos
 	 * @property {number} row - 월드 지도에서 출구 행 좌표 
 	 * @property {number} col - 월드 지도에서 출구 열 좌표
@@ -915,9 +941,7 @@ class Game {
 	}
 
 	/**
-	 * 모바일에서 플레이어 이동 처리
-	 * 
-	 * 드래그로 이동
+	 * 모바일에서 터치 이벤트를 이동입력으로 변환하여 이동함수를 부른다
 	 */
 	move_mobile() {
 		let clientFix = {x:0, y:0}	 // 처음 드래그 시작한 위치, 기준점 좌표 
@@ -945,9 +969,11 @@ class Game {
 			clientMove.y = 0
 		})
 
+		//이동속도 를 조절하여 이동함수를 불러줌
 		this.mob_move=setInterval( () => {
 			const xMove = Math.abs(clientFix.x - clientMove.x)
 			const yMove = Math.abs(clientFix.y - clientMove.y)
+			// 민감도조절을 위해 드레그거리가 15이상일때 만 작동 하도록 함
 			if(xMove > yMove && xMove > 15) {
 				if( clientFix.x < clientMove.x ) { this.moveCallback("right") }
 				else if ( clientFix.x > clientMove.x ){ this.moveCallback("left") }
@@ -991,7 +1017,7 @@ class Game {
 							Math.pow(this.exitInfo.col - this.player.world_col, 2)) * 10)
 			displayArea.innerText = ` 진행 레벨 : ${this.level+1}`
 			displayArea.innerText += `\n 출구 : ${this.exitInfo.row-9}, ${this.exitInfo.col-9}`
-			displayArea.innerText += `\n현재위치 : ${this.player.world_col-9}, ${this.player.world_row-9}`
+			displayArea.innerText += `\n 현재위치 : ${this.player.world_col-9}, ${this.player.world_row-9}`
 			displayArea.innerText += `\n 출구까지의 거리 : ${parseInt(distance10 / 10)}.${distance10 % 10}`
 			displayArea.innerText += `\n 이동 거리 : ${this.moveLength}`
 		} else {
