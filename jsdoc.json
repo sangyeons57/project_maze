@@ -33,7 +33,7 @@
         ],
         "menu": {
             "GitHub 링크": {
-                "href": "https://github.com/sangyeons57/projects/tree/master/game/testproject2",
+                "href": "https://github.com/sangyeons57/project_maze/",
                 "target": "_blank",
                 "class": "menu-item",
                 "id": "website_link"

@@ -90,6 +90,15 @@ class Layer {
 
 	/**
 	 * 지정된 네모 영역을 자른 후 특정값으로 1 or 0 지도를 만든다 
+	 * 
+	 *  1 or 0 지도는 1 아니면 0 두가지 값만 가지는 지도
+	 *  여기서는 1에 해당하는 값을 지정하여 해당값의 좌표에 1을 지정한다.
+	 * 
+	 * @param {any} onValue - 1 에 해당하는 값. 
+	 * @param {number} startY - 반환할 영역의 시작 y 값
+	 * @param {number} startX - 반환할 영역의 시작 x 값
+	 * @param {number} numY - 반환할 영역의 끝 y 값(startY + numY 가 끝값이다.)
+	 * @param {number} numX - 반환할 영역의 끝 x 값(stratX + numX 가 끝값이다.)
 	 */
 	getOnOffMap(onValue, startY=0, startX=0, numY=1, numX=this.width) {
 		const cutMap =  this.cutPlace(startY, startX, numY, numX)
@@ -103,7 +112,6 @@ class Layer {
 	fillPlaceMap(map) {
 		this.place = map
 	}
-
 
 }
 
@@ -183,6 +191,7 @@ class WorldLayer extends Layer {
  * @extends Layer
  */
 class WallLayer extends Layer {
+
 	/**
 	 * 주어진 좌표가 길인지 확인하는 함수 
 	 *  
@@ -193,6 +202,18 @@ class WallLayer extends Layer {
 	isPath(row, col) {
 		return this.place[row][col] === VALUES.noWall
 	}
+
+	/**
+	 * 주어진 좌표가 벽인지 확인하는 함수 
+	 *  
+	 * @param {number} row 
+	 * @param {number} col 
+	 * @returns {boolean}  - 주어진 좌표가 길이 아니고 벽이면 true 반환
+	 */
+	isWall(row, col) {
+		return this.place[row][col] === VALUES.wall
+	}
+
 }
 
 
@@ -203,6 +224,8 @@ class WallLayer extends Layer {
 class ShadowLayer extends Layer {
 	/**
 	 * 전체를 주어진 값으로 초기화 한다
+	 * 
+	 * @param {any} value -  레이어의 2차원 배열을 채울수 있는 값 (컬러 or 숫자) 
 	 */
 	reset(value) {
 		this.place.map(line => line.fill(value))
@@ -221,49 +244,122 @@ class ShadowLayer extends Layer {
 	}
 
 	/**
-	 * 플레이어 중심으로 일직선 상의 시야를 표시한다 
-	 *
-	 * 플레이어 중심이므로 월드 지도 좌표가 아닌 스크린 좌표를 사용한다 
-	 *  
-	 * @param {WallLayer} wallMap    - 현재 벽 지도 
-	 * @param {number} row  		 - 스크린상 행 좌표 
-	 * @param {number} col  		 - 스크린상 열 좌표
-	 * @param {string} dirName		 - 현재 시야 방향, 플레이어 위치는 초기값 
-	 * @param {number} step          - 시야 진행 정도 표시 (디버깅용도) 
+	 * 플레이어 주변 4방향으로 시야에 걸리는 부분의 그림자를 제거한다
+	 * 
+	 * @param {WallLayer} wallMap
+	 * @param {PlayerMaker} player 
 	 */
+	makeSights(wallMap, player){
+		this.xSightSearch(wallMap, player, 1)	// 오른쪽으로 검색
+		this.xSightSearch(wallMap, player,-1)	// 왼쪽으로 검색
+		this.ySightSearch(wallMap, player, 1)	// 아랫쪽으로 검색
+		this.ySightSearch(wallMap, player,-1)	// 윗쪽으로 검색
+	}
 
-	chainSight(wallMap, row, col, dirName='', step=0) {
-		this.place[row][col] = VALUES.noShadow
+	/**
+	 * 플레이어 주변에서 시야가 벽으로 막히지 않는 부분의 x축 방향으로 그림자를 제거한다.
+	 * 
+	 * @param {WallLayer} wallMap -  벽지도 레이어 
+	 * @param {PlayerMaker} player - 플레이어 클래스 
+	 * @param {number} direction - 시야검색열 진행 방향을 결정한다 ( 1 : 오른쪽, -1 : 왼쪽) 
+	 */
+	xSightSearch (wallMap, player, direction) {
+		// moveCol 시작값은 플레이어 위치
+		let moveCol = player.screen_col
 
-		const up = {name: 'up', y: row - 1, x:col}
-		const down = {name: 'down', y: row + 1, x:col}
-		const left = {name: 'left', y: row, x:col - 1}
-		const right = {name: 'right', y: row, x:col + 1}
-		const directions = [up, down, left, right]
+		// 시야는 위쪽한계선(upLimit)과 아랫쪽한계선(downLimit) 사이에 위치한다.
+		let upLimit = 0
+		let downLimit = this.height
 
-		const isArea = (dir) => dir.y > 0 && dir.x > 0 && 
-								dir.y < this.height && dir.x < this.width
-	
-		// 현재 위치에서 4방향 그림자 제거
-		directions.forEach(dir => { 
-			if ( isArea(dir)){
-				this.place[dir.y][dir.x] = VALUES.noShadow 
-			}
-		})
+		// 시야검색
+		while (true){
 
-		if(dirName) {
-			// 플레이어 위치에서 벽으로 막혀있지 않은 방향이 벽으로 막힐때까지 진행 
-			const sightDir = directions.find(dir => dir.name === dirName)
-			if(isArea(sightDir) && wallMap.isPath(sightDir.y, sightDir.x)) {
-				this.chainSight(wallMap, sightDir.y, sightDir.x, sightDir.name, ++step)
-			}
-		} else {
-			// 플레이어 위치에서 4방향으로 시야 검사함
-			directions.forEach(dir => {
-				if(wallMap.isPath(dir.y, dir.x)) {
-					this.chainSight(wallMap, dir.y, dir.x, dir.name, ++step)
+			// 플레이어 아래쪽 그림자 제거. 아래쪽 그림자 한계선 업데이트
+			for(let row = player.screen_row; row < downLimit; row++) {
+				this.place[row][moveCol] = VALUES.noShadow
+				if(wallMap.isWall(row, moveCol)) {
+					downLimit = row + 1
+					break
 				}
-			})
+			}
+
+			// 플레이어 윗쪽 그림자 제거. 윗쪽 그림자 한계선 업데이트
+			for(let row = player.screen_row; row > upLimit; row--) {
+				this.place[row][moveCol] = VALUES.noShadow
+				if(wallMap.isWall(row, moveCol)) {
+					upLimit = row - 1
+					break
+				}
+			}
+			// direction이 +1 이면 시야검색열을 오른쪽으로 이동
+			// direction이 -1 이면 시야검색열을 왼쪽으로 이동
+			moveCol = moveCol + direction
+
+			// 시야검색열이 경계선까지가면 멈춤 
+			if ( moveCol < this.width && moveCol > 0) {
+				this.place[player.screen_row][moveCol] = VALUES.noShadow
+			} else {
+				break
+			}
+			// 벽이면 멈춤
+			if (wallMap.isWall(player.screen_row, moveCol)) {
+				break
+			}
+		}
+	}
+
+	/**
+	 * 플레이어 주변에서 시야가 벽으로 막히지 않는 부분의 y축 방향으로 그림자를 제거한다.
+	 * 
+	 * @param {WallLayer} wallMap -  벽지도 레이어 
+	 * @param {PlayerMaker} player - 플레이어 클래스 
+	 * @param {number} direction - 시야검색열 진행 방향을 결정한다 ( 1 : 아랫쪽, -1 : 윗쪽) 
+	 */
+	ySightSearch (wallMap,player,direction) {
+		// moveRow 시작값은 플레이어 위치
+		let moveRow = player.screen_row
+
+		// 시야는 왼쪽한계선(leftLimit)과 오른쪽한계선(rightLimit) 사이에 위치한다.
+		let leftLimit = 0
+		let rightLimit = this.width
+
+		// 시야검색
+		while (true){
+
+			// 플레이어 오른쪽 그림자 제거. 오른쪽 그림자 한계선 업데이트
+			for(let col = player.screen_col; col < rightLimit; col++) {
+				this.place[moveRow][col] = VALUES.noShadow
+				if(wallMap.isWall(moveRow, col)) {
+					rightLimit = col + 1
+					break
+				}
+			}
+
+			// 플레이어 왼쪽 그림자 제거. 왼쪽 그림자 한계선 업데이트
+			for(let col = player.screen_col; col > leftLimit; col--) {
+				this.place[moveRow][col] = VALUES.noShadow
+				if(wallMap.isWall(moveRow, col)) {
+					leftLimit = col - 1
+					break
+				}
+			}
+
+
+			// direction이 +1 이면 시야검색열을 오른쪽으로 이동
+			// direction이 -1 이면 시야검색열을 왼쪽으로 이동
+			moveRow = moveRow + direction
+
+			// 시야검색열이 경계선까지가면 멈춤 
+			if ( moveRow < this.height && moveRow > 0) {
+				this.place[moveRow][player.screen_col] = VALUES.noShadow
+			} else {
+				break
+			}
+
+			// 벽이면 멈춤
+			if (wallMap.isWall(moveRow, player.screen_col)) {
+				break
+			}
 		}
 	}
 	
@@ -570,7 +666,7 @@ class MapMaker {
 		console.assert(isOdd(canvas_block_width) && isOdd(canvas_block_height),
 			`캔버스 크기를 블럭으로 나눈값은 홀수가 되어야 합니다 : ${canvas_block_width}, ${canvas_block_height}`)
 
-		// 스크린 블럭 단위 길이 
+		// 스크린 블럭 단위 길이 (경계선 길이 2=1*2를 뺌)
 		this.screen_width = canvas_block_width - 2 * this.border_block_size
 		this.screen_height = canvas_block_height - 2 * this.border_block_size
 		// 플레이어의 위치는 항상 스크린의 중심
@@ -652,7 +748,7 @@ class MapMaker {
 
 
 	/**
-	 * 그림자 만들기 , 구 : make_shadow()
+	 * 그림자 만들기
 	 */
 	make_shadow(player, level, comMode){
 		if(comMode === VALUES.gameMode){
@@ -674,7 +770,7 @@ class MapMaker {
 	makeShadowMap(player) {
 		this.updateWallMap(player)
 		this.shadow.reset(VALUES.shadow)
-		this.shadow.chainSight(this.wall, player.screen_row, player.screen_col)
+		this.shadow.makeSights(this.wall, player)
 	}
 
 	/**

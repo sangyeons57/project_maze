@@ -4,7 +4,7 @@
 
 ## 플레이 방법 
 
-* 게임 접속 주소 : 
+* 게임 접속 주소 : [https://sangyeons57.github.io/project_maze/](https://sangyeons57.github.io/project_maze/) 
 * 위 주소로 접속하면 바로 게임을 플레이할 수 있다.
 * 키보드의 **화살표 키** (<kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>)를 입력하면 게임이 시작된다. 
 * 모바일 이때는 드래그 로 움직일수 있다.
